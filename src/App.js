@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import './styles.css';
-
 export default function App() {
     const [desiredNumber, setDesiredNumber] = useState(0);
     const [number, setNumber] = useState(undefined);
