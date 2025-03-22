@@ -19,6 +19,8 @@ export default function App() {
 
         setDesiredNumber(parseInt(result, 10));
         setAnswers([]);
+        setNumber(undefined);
+        inputRef.current.value = '';
     };
 
     const createAnswer = (number, correct) => {
