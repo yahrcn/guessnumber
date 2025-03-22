@@ -93,3 +93,9 @@ ol li:before {
     padding: 3px 8px;
     border-radius: 3px;
 }
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}

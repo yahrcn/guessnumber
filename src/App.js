@@ -28,7 +28,8 @@ export default function App() {
         };
     };
 
-    const submitNumber = () => {
+    const submitNumber = (e) => {
+        e.preventDefault();
         if (
             number === undefined ||
             String(number).length !== 4 ||
@@ -85,17 +86,21 @@ export default function App() {
     return (
         <div className='App'>
             <h1>Угадай число</h1>
-            <input
-                value={number}
-                onChange={handleChange}
-                className='input'
-                ref={inputRef}
-            />
-            <button
-                onClick={submitNumber}
-                className='button'>
-                Submit
-            </button>
+            <form
+                onSubmit={submitNumber}
+                className='form'>
+                <input
+                    value={number}
+                    onChange={handleChange}
+                    className='input'
+                    ref={inputRef}
+                />
+                <button
+                    type='submit'
+                    className='button'>
+                    Submit
+                </button>
+            </form>
             <button
                 onClick={generateRandomNumber}
                 className='button'>
