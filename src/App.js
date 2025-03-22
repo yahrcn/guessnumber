@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+
+import './App.css';
 
 export default function App() {
     const [desiredNumber, setDesiredNumber] = useState(0);
     const [number, setNumber] = useState(undefined);
     const [answers, setAnswers] = useState([]);
+    const inputRef = useRef(null);
 
     const generateRandomNumber = () => {
         const digits = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -26,11 +29,16 @@ export default function App() {
     };
 
     const submitNumber = () => {
-        if (number === undefined || String(number).length !== 4) {
+        if (
+            number === undefined ||
+            String(number).length !== 4 ||
+            answers.find((answer) => answer.number === number)
+        ) {
             return;
         }
         setAnswers([...answers, createAnswer(number, checkNumber(number))]);
         setNumber(undefined);
+        inputRef.current.value = '';
     };
 
     const checkNumber = (number) => {
@@ -42,9 +50,24 @@ export default function App() {
                 string += '!';
             }
         }
-        console.log(desiredNumber, string);
 
         return string;
+    };
+
+    const handleChange = (e) => {
+        let value = e.target.value;
+        value = value.replace(/\D/g, '');
+
+        if (value.length > 4) {
+            value = value.slice(0, 4);
+        }
+
+        const uniqueDigits = new Set(value);
+        if (uniqueDigits.size !== value.length) {
+            value = Array.from(uniqueDigits).join('');
+        }
+
+        setNumber(value);
     };
 
     useEffect(() => {
@@ -56,17 +79,29 @@ export default function App() {
             <h1>Угадай число</h1>
             <input
                 value={number}
-                onChange={(e) => setNumber(Number(e.target.value))}
+                onChange={handleChange}
+                className='input'
+                ref={inputRef}
             />
-            <button onClick={submitNumber}>Submit</button>
-            <button onClick={generateRandomNumber}>Reset</button>
-            <ul>
+            <button
+                onClick={submitNumber}
+                className='button'>
+                Submit
+            </button>
+            <button
+                onClick={generateRandomNumber}
+                className='button'>
+                Reset
+            </button>
+            <ol className='list'>
                 {answers.map((answer, index) => (
-                    <li key={index}>
+                    <li
+                        className='item'
+                        key={index}>
                         {answer.number} - {answer.correct}
                     </li>
                 ))}
-            </ul>
+            </ol>
         </div>
     );
 }
