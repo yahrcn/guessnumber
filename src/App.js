@@ -51,12 +51,21 @@ export default function App() {
             }
         }
 
-        return string;
+        let arr = string.split('');
+
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        console.log(desiredNumber);
+
+        return arr.join('');
     };
 
     const handleChange = (e) => {
         let value = e.target.value;
         value = value.replace(/\D/g, '');
+        value = value.replace(/[09]/g, '');
 
         if (value.length > 4) {
             value = value.slice(0, 4);
